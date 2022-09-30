@@ -1,7 +1,6 @@
 import { FormEvent, useState, ChangeEvent } from "react";
 import { useAppSelector } from "../../helpers/hooks";
 import { INewNote } from "../../helpers/interfaces";
-import s from "./NoteForm.module.css";
 
 interface INoteFormProps {
   handleSubmit: Function;
@@ -67,11 +66,11 @@ export function NoteForm({
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmitForm}>
-      <label className={s.label}>
-        <span className={s.title}>Name</span>
+    <form className="w-[400px] text-2xl" onSubmit={handleSubmitForm}>
+      <label className="flex flex-col mb-5">
+        <span className="mb-5 text-white">Name</span>
         <input
-          className={s.input}
+          className="p-2 rounded-lg"
           type="text"
           name="name"
           value={name}
@@ -80,14 +79,14 @@ export function NoteForm({
         />
       </label>
 
-      <div className={s.categories}>
-        <span className={s.title}>Category</span>
+      <div className="flex flex-col mb-5 text-white">
+        <span className="mb-5 text-white">Category</span>
         {categories.map((el) => {
           if (el.id === categoryId) {
             return (
-              <label className={s.categoryLabel} key={el.id}>
+              <label className="flex" key={el.id}>
                 <input
-                  className={s.categoryInput}
+                  className="mr-2 accent-slate-600"
                   name="category"
                   type="radio"
                   value={el.id}
@@ -99,9 +98,9 @@ export function NoteForm({
             );
           } else {
             return (
-              <label className={s.categoryLabel} key={el.id}>
+              <label className="flex" key={el.id}>
                 <input
-                  className={s.categoryInput}
+                  className="mr-2 accent-slate-600"
                   name="category"
                   type="radio"
                   value={el.id}
@@ -114,10 +113,10 @@ export function NoteForm({
         })}
       </div>
 
-      <label className={s.label}>
-        <span className={s.title}>Content</span>
+      <label className="flex flex-col mb-5">
+        <span className="mb-5 text-white">Content</span>
         <textarea
-          className={s.textarea}
+          className="h-40 p-2 rounded-lg resize-none"
           name="content"
           onChange={onChange}
           value={content}
@@ -125,12 +124,14 @@ export function NoteForm({
       </label>
 
       {isEmptyField ? (
-        <div className={s.error}>Fill all fields, please</div>
+        <div className="text-center text-red-600 text-2xl">
+          Fill all fields, please
+        </div>
       ) : (
         ""
       )}
       {isMoreThanMaxLength ? (
-        <div className={s.error}>
+        <div className="text-center text-red-600 text-2xl">
           The maximum number of characters for the name is 50. The maximum
           number of characters for the content is 1000.
         </div>
@@ -138,7 +139,10 @@ export function NoteForm({
         ""
       )}
 
-      <button className={s.submit} type="submit">
+      <button
+        className="block ml-auto cursor-pointer transition-transform hover:scale-110 focus:scale-110"
+        type="submit"
+      >
         {children}
       </button>
     </form>

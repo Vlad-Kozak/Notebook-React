@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+table {
+  @apply w-full border-separate border-spacing-y-2 text-lg text-left;
+}
+
+th {
+  @apply py-1 px-2 bg-slate-500 text-white;
+}
+
+td {
+  @apply py-1 px-2 bg-slate-300;
+}
+
+th:first-child {
+  @apply rounded-tl-lg rounded-bl-lg;
+}
+th:last-child {
+  @apply rounded-tr-lg rounded-br-lg;
+}
+td:first-child {
+  @apply rounded-tl-lg rounded-bl-lg;
+}
+td:last-child {
+  @apply rounded-tr-lg rounded-br-lg;
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { TextButton } from "./components/TextButton/TextButton";
+import { Container } from "./components/Container/Container";
 import { NoteForm } from "./components/NoteForm/NoteForm";
 import { Modal } from "./components/Modal/Modal";
 import { Table } from "./components/Table/Table";
@@ -41,31 +42,37 @@ function App() {
 
   return (
     <>
-      <Table
-        notes={notes.filter((el) => !el.archived)}
-        categories={categories}
-        type="notes"
-      />
-      <div className="createButton">
-        <TextButton handleClick={handleToggleModal}>Create Note</TextButton>
-      </div>
-      <div className="showArchiveButton">
-        <TextButton handleClick={handleToggleShowArchive}>
-          {showArchive ? "Hide Archive" : "Show Archive"}
-        </TextButton>
-      </div>
-
-      {showArchive ? (
+      <Container>
         <Table
-          notes={notes.filter((el) => el.archived)}
+          notes={notes.filter((el) => !el.archived)}
           categories={categories}
           type="notes"
         />
+        <div className="createButton">
+          <TextButton handleClick={handleToggleModal}>Create Note</TextButton>
+        </div>
+        <div className="showArchiveButton">
+          <TextButton handleClick={handleToggleShowArchive}>
+            {showArchive ? "Hide Archive" : "Show Archive"}
+          </TextButton>
+        </div>
+      </Container>
+
+      {showArchive ? (
+        <Container>
+          <Table
+            notes={notes.filter((el) => el.archived)}
+            categories={categories}
+            type="notes"
+          />
+        </Container>
       ) : (
         <></>
       )}
 
-      <Table notes={notes} categories={categories} type="categories" />
+      <Container>
+        <Table notes={notes} categories={categories} type="categories" />
+      </Container>
 
       {showModalCreateNote ? (
         <Modal handleClickCloseModal={handleToggleModal}>

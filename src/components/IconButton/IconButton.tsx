@@ -1,5 +1,4 @@
 import { MouseEventHandler } from "react";
-import s from "./IconButton.module.css";
 
 interface IconButtonProps {
   handleClick: MouseEventHandler;
@@ -8,7 +7,10 @@ interface IconButtonProps {
 
 export function IconButton({ handleClick, children }: IconButtonProps) {
   return (
-    <button className={s.button} onClick={handleClick}>
+    <button
+      className="w-[30] h-[30] bg-transparent cursor-pointer transition-transform hover:scale-110 focus:scale-110"
+      onClick={handleClick}
+    >
       {children}
     </button>
   );
