@@ -1,6 +1,5 @@
 import { MouseEventHandler, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { ReactComponent as CloseIcon } from "../../images/close.svg";
 import { IconButton } from "../IconButton/IconButton";
 
 interface IModalProps {
@@ -36,9 +35,7 @@ export function Modal({ handleClickCloseModal, children }: IModalProps) {
       <div className="relative p-10 bg-slate-500 rounded-lg">
         {children}
         <div className="absolute top-2 right-2">
-          <IconButton handleClick={handleClickCloseModal}>
-            <CloseIcon width="30" height="30" />
-          </IconButton>
+          <IconButton handleClick={handleClickCloseModal} type="close" />
         </div>
       </div>
     </div>,

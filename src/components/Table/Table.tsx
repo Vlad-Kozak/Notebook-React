@@ -2,11 +2,7 @@ import { useState } from "react";
 import { NoteForm } from "../NoteForm/NoteForm";
 import { Modal } from "../Modal/Modal";
 import { IconButton } from "../IconButton/IconButton";
-import { ReactComponent as EditIcon } from "../../images/edit.svg";
-import { ReactComponent as ArchiveIcon } from "../../images/archive.svg";
-import { ReactComponent as DeleteIcon } from "../../images/delete.svg";
 import { ReactComponent as ConfirmIcon } from "../../images/confirm.svg";
-import { ReactComponent as EyeIcon } from "../../images/eye.svg";
 import { ICategory, INewNote, INote } from "../../helpers/interfaces";
 import { getDatesFromText } from "../../helpers/getDatesFromText";
 import { getNotesCount } from "../../helpers/getNotesCount";
@@ -157,9 +153,8 @@ export function Table({ notes, categories, type }: ITableProps) {
                           content: note.content,
                         });
                       }}
-                    >
-                      <EyeIcon width="30" height="30" />
-                    </IconButton>
+                      type="show"
+                    />
                   </div>
                   <div className="mr-1">
                     <IconButton
@@ -171,27 +166,24 @@ export function Table({ notes, categories, type }: ITableProps) {
                           content: note.content,
                         });
                       }}
-                    >
-                      <EditIcon width="30" height="30" />
-                    </IconButton>
+                      type="edit"
+                    />
                   </div>
                   <div className="mr-1">
                     <IconButton
                       handleClick={() => {
                         handleArchiveClick(note.id);
                       }}
-                    >
-                      <ArchiveIcon width="30" height="30" />
-                    </IconButton>
+                      type="archive"
+                    />
                   </div>
                   <div>
                     <IconButton
                       handleClick={() => {
                         handleDeleteClick(note.id);
                       }}
-                    >
-                      <DeleteIcon width="30" height="30" />
-                    </IconButton>
+                      type="delete"
+                    />
                   </div>
                 </div>
               </td>
@@ -216,9 +208,7 @@ export function Table({ notes, categories, type }: ITableProps) {
           <NoteForm
             handleSubmit={handleSubmitEditForm}
             currentNote={currentNote}
-          >
-            <ConfirmIcon width="50" height="50" />
-          </NoteForm>
+          />
         </Modal>
       ) : (
         <></>

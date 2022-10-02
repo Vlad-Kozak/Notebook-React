@@ -1,18 +1,15 @@
 import { FormEvent, useState, ChangeEvent } from "react";
 import { useAppSelector } from "../../helpers/hooks";
 import { INewNote } from "../../helpers/interfaces";
+import { ReactComponent as AddIcon } from "../../images/add.svg";
+import { ReactComponent as ConfirmIcon } from "../../images/confirm.svg";
 
 interface INoteFormProps {
   handleSubmit: Function;
   currentNote?: INewNote;
-  children: JSX.Element;
 }
 
-export function NoteForm({
-  handleSubmit,
-  currentNote,
-  children,
-}: INoteFormProps) {
+export function NoteForm({ handleSubmit, currentNote }: INoteFormProps) {
   const categories = useAppSelector((state) => state.notes.categories);
   const [name, setName] = useState(currentNote?.name ? currentNote.name : "");
   const [categoryId, setCategoryId] = useState(
@@ -143,7 +140,11 @@ export function NoteForm({
         className="block ml-auto cursor-pointer transition-transform hover:scale-110 focus:scale-110"
         type="submit"
       >
-        {children}
+        {currentNote ? (
+          <ConfirmIcon width="50" height="50" />
+        ) : (
+          <AddIcon width="50" height="50" />
+        )}
       </button>
     </form>
   );
