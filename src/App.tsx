@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import { TextButton } from "./components/TextButton/TextButton";
 import { Container } from "./components/Container/Container";
 import { NoteForm } from "./components/NoteForm/NoteForm";
@@ -48,10 +47,10 @@ function App() {
           categories={categories}
           type="notes"
         />
-        <div className="createButton">
+        <div className="w-fit ml-auto mb-2">
           <TextButton handleClick={handleToggleModal}>Create Note</TextButton>
         </div>
-        <div className="showArchiveButton">
+        <div className="w-fit ml-auto">
           <TextButton handleClick={handleToggleShowArchive}>
             {showArchive ? "Hide Archive" : "Show Archive"}
           </TextButton>
