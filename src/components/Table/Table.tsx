@@ -1,5 +1,4 @@
 import { useState } from "react";
-import s from "./Table.module.css";
 import { NoteForm } from "../NoteForm/NoteForm";
 import { Modal } from "../Modal/Modal";
 import { IconButton } from "../IconButton/IconButton";
@@ -77,25 +76,27 @@ export function Table({ notes, categories, type }: ITableProps) {
   if (type === "categories") {
     const count = getNotesCount(notes);
     return (
-      <table className={s.table}>
-        <tr className={s.titles}>
-          <th className={s.titleIcon}></th>
-          <th className={s.titleNoteCategory}>Note Category</th>
-          <th className={s.titleActive}>Active</th>
-          <th className={s.titleArchived}>Archived</th>
+      <table>
+        <tr>
+          <th></th>
+          <th>Note Category</th>
+          <th>Active</th>
+          <th>Archived</th>
         </tr>
         {categories.map((el) => {
           if (!count[el.id]) {
             count[el.id] = { countActive: 0, countArchived: 0 };
           }
           return (
-            <tr className={s.line} key={el.id}>
-              <td className={s.icon}>
-                <div className={s.iconWrap}>{<el.imageUrl />}</div>
+            <tr key={el.id}>
+              <td>
+                <div className="flex items-center justify-center w-10 h-10 mx-auto bg-slate-500 rounded-full">
+                  {<el.imageUrl />}
+                </div>
               </td>
-              <td className={s.noteCategory}>{el.name}</td>
-              <td className={s.active}>{count[el.id].countActive}</td>
-              <td className={s.archived}>{count[el.id].countArchived}</td>
+              <td>{el.name}</td>
+              <td>{count[el.id].countActive}</td>
+              <td>{count[el.id].countArchived}</td>
             </tr>
           );
         })}
@@ -105,50 +106,48 @@ export function Table({ notes, categories, type }: ITableProps) {
 
   return (
     <>
-      <table className={s.table}>
-        <tr className={s.titles}>
-          <th className={s.titleIcon}></th>
-          <th className={s.titleName}>Name</th>
-          <th className={s.titleCreated}>Created</th>
-          <th className={s.titleCategory}>Category</th>
-          <th className={s.titleContent}>Content</th>
-          <th className={s.titleDates}>Dates</th>
-          <th className={s.titleButtons}></th>
+      <table>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Created</th>
+          <th>Category</th>
+          <th>Content</th>
+          <th>Dates</th>
+          <th></th>
         </tr>
         {notes.map((note) => {
           const category = categories.find((el) => el.id === note.categoryId);
           const dates = getDatesFromText(note.content);
           return (
-            <tr className={s.line} key={note.id}>
-              <td className={s.icon}>
-                <div className={s.iconWrap}>
+            <tr key={note.id}>
+              <td>
+                <div className="flex items-center justify-center w-10 h-10 mx-auto bg-slate-500 rounded-full">
                   {category && <category.imageUrl />}
                 </div>
               </td>
-              <td className={s.name}>
+              <td className="font-medium">
                 {note.name.length > 20
                   ? note.name.slice(0, 20) + "..."
                   : note.name}
               </td>
-              <td className={s.created}>
+              <td>
                 {new Date(note.created).toLocaleString("en-US", {
                   month: "long",
                   year: "numeric",
                   day: "numeric",
                 })}
               </td>
-              <td className={s.category}>{category && category.name}</td>
-              <td className={s.content}>
+              <td>{category && category.name}</td>
+              <td>
                 {note.content.length > 30
                   ? note.content.slice(0, 30) + "..."
                   : note.content}
               </td>
-              <td className={s.dates}>
-                {dates.length > 18 ? dates.slice(0, 18) + "..." : dates}
-              </td>
-              <td className={s.buttons}>
-                <div className={s.buttonsWrap}>
-                  <div className={s.buttonWrap}>
+              <td>{dates.length > 18 ? dates.slice(0, 18) + "..." : dates}</td>
+              <td>
+                <div className="flex justify-center">
+                  <div className="mr-1">
                     <IconButton
                       handleClick={() => {
                         handleShowClick({
@@ -162,7 +161,7 @@ export function Table({ notes, categories, type }: ITableProps) {
                       <EyeIcon width="30" height="30" />
                     </IconButton>
                   </div>
-                  <div className={s.buttonWrap}>
+                  <div className="mr-1">
                     <IconButton
                       handleClick={() => {
                         handleEditClick({
@@ -176,7 +175,7 @@ export function Table({ notes, categories, type }: ITableProps) {
                       <EditIcon width="30" height="30" />
                     </IconButton>
                   </div>
-                  <div className={s.buttonWrap}>
+                  <div className="mr-1">
                     <IconButton
                       handleClick={() => {
                         handleArchiveClick(note.id);
@@ -185,7 +184,7 @@ export function Table({ notes, categories, type }: ITableProps) {
                       <ArchiveIcon width="30" height="30" />
                     </IconButton>
                   </div>
-                  <div className={s.buttonWrap}>
+                  <div>
                     <IconButton
                       handleClick={() => {
                         handleDeleteClick(note.id);
@@ -203,9 +202,9 @@ export function Table({ notes, categories, type }: ITableProps) {
 
       {showModalShowNote ? (
         <Modal handleClickCloseModal={handleToggleShowModal}>
-          <div className={s.showModal}>
-            <div className={s.showModalName}>{currentNote.name}</div>
-            <div className={s.showModalContent}>{currentNote.content}</div>
+          <div className="w-[400px] text-2xl text-white">
+            <div className="mb-5 font-bold break-words">{currentNote.name}</div>
+            <div className="break-words text-xl">{currentNote.content}</div>
           </div>
         </Modal>
       ) : (
