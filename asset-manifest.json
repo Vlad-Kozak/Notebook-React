@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Notebook-React/static/css/main.28374db5.css",
-    "main.js": "/Notebook-React/static/js/main.ab192fb2.js",
+    "main.css": "/Notebook-React/static/css/main.9101ecfa.css",
+    "main.js": "/Notebook-React/static/js/main.199d92cf.js",
     "static/media/archive.svg": "/Notebook-React/static/media/archive.00206ce49e7a6b6f5ca694aad30357ef.svg",
     "static/media/thought.svg": "/Notebook-React/static/media/thought.e4f7d37c9583fb97f02d9ad5924f8de5.svg",
     "static/media/delete.svg": "/Notebook-React/static/media/delete.a8d8576177569b839111790d2c8b9405.svg",
@@ -13,11 +13,11 @@
     "static/media/add.svg": "/Notebook-React/static/media/add.3127409c13a738f99412a38ea17dd5b5.svg",
     "static/media/confirm.svg": "/Notebook-React/static/media/confirm.765691592a209ddac235ed9124959baa.svg",
     "static/media/close.svg": "/Notebook-React/static/media/close.b304e3fc0f06aba8cdafa99cb001ed7b.svg",
-    "main.28374db5.css.map": "/Notebook-React/static/css/main.28374db5.css.map",
-    "main.ab192fb2.js.map": "/Notebook-React/static/js/main.ab192fb2.js.map"
+    "main.9101ecfa.css.map": "/Notebook-React/static/css/main.9101ecfa.css.map",
+    "main.199d92cf.js.map": "/Notebook-React/static/js/main.199d92cf.js.map"
   },
   "entrypoints": [
-    "static/css/main.28374db5.css",
-    "static/js/main.ab192fb2.js"
+    "static/css/main.9101ecfa.css",
+    "static/js/main.199d92cf.js"
   ]
 }
