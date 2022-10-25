@@ -4,11 +4,14 @@ import { ReactComponent as ThoughtIcon } from "../images/thought.svg";
 import { ReactComponent as IdeaIcon } from "../images/idea.svg";
 
 interface INotesInitialState {
+  showArchive: boolean;
   notes: INote[];
   categories: ICategory[];
+  currentCategory: null | string;
 }
 
 export const notesInitialState: INotesInitialState = {
+  showArchive: false,
   notes: [
     {
       id: "1",
@@ -24,7 +27,7 @@ export const notesInitialState: INotesInitialState = {
       created: 1623229618048,
       categoryId: "1",
       content:
-        "I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021",
+        "I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021, I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021, I’m gonna have a dentist appointment on the 3/5/2021, I moved it from 5/5/2021",
       archived: false,
     },
     {
@@ -85,4 +88,5 @@ export const notesInitialState: INotesInitialState = {
       imageUrl: IdeaIcon,
     },
   ],
+  currentCategory: null,
 };

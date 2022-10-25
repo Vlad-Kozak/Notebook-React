@@ -50,9 +50,14 @@ const notes = createSlice({
         };
       });
     },
+    toggleShowArchive(state) {
+      state.showArchive = !state.showArchive;
+    },
+    pickCurrentCategory(state, action) {
+      state.currentCategory = action.payload.categoryId;
+    },
   },
 });
 
-export const { addNote, editNote, deleteNote, toggleArchiveNote } =
-  notes.actions;
-export default notes.reducer;
+export const NotesActions = notes.actions;
+export const NotesReducer = notes.reducer;

@@ -1,6 +1,6 @@
 import { FormEvent, useState, ChangeEvent } from "react";
-import { useAppSelector } from "../../helpers/hooks";
-import { INewNote } from "../../helpers/interfaces";
+import { useAppSelector } from "../helpers/hooks";
+import { INewNote } from "../helpers/interfaces";
 
 interface INoteFormProps {
   handleSubmit: Function;
@@ -86,7 +86,7 @@ export function NoteForm({
             return (
               <label className="flex" key={el.id}>
                 <input
-                  className="mr-2 accent-slate-600"
+                  className="mr-2 accent-sky-300"
                   name="category"
                   type="radio"
                   value={el.id}
@@ -100,7 +100,7 @@ export function NoteForm({
             return (
               <label className="flex" key={el.id}>
                 <input
-                  className="mr-2 accent-slate-600"
+                  className="mr-2 accent-sky-300"
                   name="category"
                   type="radio"
                   value={el.id}
@@ -139,10 +139,7 @@ export function NoteForm({
         ""
       )}
 
-      <button
-        className="block ml-auto cursor-pointer transition-transform hover:scale-110 focus:scale-110"
-        type="submit"
-      >
+      <button className="block ml-auto cursor-pointer" type="submit">
         {children}
       </button>
     </form>

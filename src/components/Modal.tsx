@@ -1,7 +1,6 @@
 import { MouseEventHandler, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { ReactComponent as CloseIcon } from "../../images/close.svg";
-import { IconButton } from "../IconButton/IconButton";
+import { BiXCircle } from "react-icons/bi";
 
 interface IModalProps {
   handleClickCloseModal: MouseEventHandler;
@@ -30,15 +29,16 @@ export function Modal({ handleClickCloseModal, children }: IModalProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center bg-slate-800 bg-opacity-30"
+      className="fixed inset-0 flex items-center justify-center bg-slate-800/30 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="relative p-10 bg-slate-500 rounded-lg">
+      <div className="relative p-10 bg-sky-600 rounded-lg">
         {children}
-        <div className="absolute top-2 right-2">
-          <IconButton handleClick={handleClickCloseModal}>
-            <CloseIcon width="30" height="30" />
-          </IconButton>
+        <div
+          className="absolute top-2 right-2 transition-transform hover:rotate-90 focus:rotate-90"
+          onClick={handleClickCloseModal}
+        >
+          <BiXCircle className="w-7 h-7 fill-white" />
         </div>
       </div>
     </div>,
