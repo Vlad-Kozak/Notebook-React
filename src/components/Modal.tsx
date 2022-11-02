@@ -21,21 +21,12 @@ export function Modal({ handleClickCloseModal, children }: IModalProps) {
     }
   };
 
-  const handleBackdropClick = (e: any) => {
-    if (e.target === e.currentTarget) {
-      handleClickCloseModal(e);
-    }
-  };
-
   return createPortal(
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-slate-800/30 backdrop-blur-sm"
-      onClick={handleBackdropClick}
-    >
+    <div className="fixed inset-0 flex items-center justify-center bg-slate-800/70">
       <div className="relative p-10 bg-sky-600 rounded-lg">
         {children}
         <div
-          className="absolute top-2 right-2 transition-transform hover:rotate-90 focus:rotate-90"
+          className="absolute top-2 right-2 transition-transform cursor-pointer hover:rotate-90 focus:rotate-90"
           onClick={handleClickCloseModal}
         >
           <BiXCircle className="w-7 h-7 fill-white" />

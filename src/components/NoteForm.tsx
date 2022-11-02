@@ -1,10 +1,10 @@
 import { FormEvent, useState, ChangeEvent } from "react";
-import { useAppSelector } from "../helpers/hooks";
-import { INewNote } from "../helpers/interfaces";
+import { ISmallNote } from "../helpers/interfaces";
+import { useGetCategoriesQuery } from "../redux/categoriesApi";
 
 interface INoteFormProps {
   handleSubmit: Function;
-  currentNote?: INewNote;
+  currentNote?: ISmallNote;
   children: JSX.Element;
 }
 
@@ -13,7 +13,7 @@ export function NoteForm({
   currentNote,
   children,
 }: INoteFormProps) {
-  const categories = useAppSelector((state) => state.notes.categories);
+  const { data = [] } = useGetCategoriesQuery();
   const [name, setName] = useState(currentNote?.name ? currentNote.name : "");
   const [categoryId, setCategoryId] = useState(
     currentNote?.categoryId ? currentNote.categoryId : ""
@@ -81,35 +81,20 @@ export function NoteForm({
 
       <div className="flex flex-col mb-5 text-white">
         <span className="mb-5 text-white">Category</span>
-        {categories.map((el) => {
-          if (el.id === categoryId) {
-            return (
-              <label className="flex" key={el.id}>
-                <input
-                  className="mr-2 accent-sky-300"
-                  name="category"
-                  type="radio"
-                  value={el.id}
-                  onChange={onChange}
-                  checked
-                />
-                {el.name}
-              </label>
-            );
-          } else {
-            return (
-              <label className="flex" key={el.id}>
-                <input
-                  className="mr-2 accent-sky-300"
-                  name="category"
-                  type="radio"
-                  value={el.id}
-                  onChange={onChange}
-                />
-                {el.name}
-              </label>
-            );
-          }
+        {[...data].map((el) => {
+          return (
+            <label className="flex" key={el._id}>
+              <input
+                className="mr-2 accent-sky-300"
+                name="category"
+                type="radio"
+                value={el._id}
+                onChange={onChange}
+                checked={el._id === categoryId}
+              />
+              {el.name}
+            </label>
+          );
         })}
       </div>
 
@@ -123,20 +108,16 @@ export function NoteForm({
         ></textarea>
       </label>
 
-      {isEmptyField ? (
-        <div className="text-center text-red-600 text-2xl">
+      {isEmptyField && (
+        <div className="text-center text-white text-xl">
           Fill all fields, please
         </div>
-      ) : (
-        ""
       )}
-      {isMoreThanMaxLength ? (
-        <div className="text-center text-red-600 text-2xl">
-          The maximum number of characters for the name is 50. The maximum
-          number of characters for the content is 1000.
+      {isMoreThanMaxLength && (
+        <div className="text-center text-white text-lg">
+          The maximum number of letters for the name is 50. The maximum number
+          of letters for the content is 1000.
         </div>
-      ) : (
-        ""
       )}
 
       <button className="block ml-auto cursor-pointer" type="submit">

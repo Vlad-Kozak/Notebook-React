@@ -1,16 +1,65 @@
-import { Container } from "./components/Container";
-import { Notes } from "./components/Notes";
-import { SideBar } from "./components/SideBar";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "./helpers/hooks";
+import { authOperations } from "./redux/auth/authOperations";
+import { ToastContainer } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+import { PrivateRoute } from "./components/Routes/PrivateRoute";
+import { PublicRoute } from "./components/Routes/PublicRoute";
+import { Home } from "./pages/Home";
+import { Authorization } from "./pages/Authorization";
+import { Circles } from "react-loader-spinner";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  return (
-    <div className="w-screen h-screen bg-transparent">
-      <SideBar />
+  const dispatch = useAppDispatch();
+  const isLoadingRefresh = useAppSelector(
+    (state) => state.root.auth.isLoadingRefresh
+  );
 
-      <Container>
-        <Notes />
-      </Container>
-    </div>
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
+
+  if (isLoadingRefresh) {
+    return (
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <Circles
+          height="150"
+          width="150"
+          color="#e3f9ff"
+          ariaLabel="circles-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <ToastContainer autoClose={4000} />
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <PrivateRoute redirect="/authorization">
+              <Home />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/authorization"
+          element={
+            <PublicRoute redirect="/" restricted>
+              <Authorization />
+            </PublicRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 

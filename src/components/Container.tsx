@@ -3,5 +3,5 @@ interface IContainerProps {
 }
 
 export function Container({ children }: IContainerProps) {
-  return <div className="ml-60 p-5">{children}</div>;
+  return <div className="ml-60 p-5 min-h-full relative">{children}</div>;
 }

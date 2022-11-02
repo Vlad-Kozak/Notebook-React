@@ -1,5 +1,5 @@
 import { INote } from "../helpers/interfaces";
-import { useAppSelector } from "../helpers/hooks";
+import { useGetCategoriesQuery } from "../redux/categoriesApi";
 
 interface INoteProps {
   note: INote;
@@ -7,8 +7,8 @@ interface INoteProps {
 }
 
 export function Note({ note, onClick }: INoteProps) {
-  const { categories } = useAppSelector((state) => state.notes);
-  const category = categories.find((el) => el.id === note.categoryId);
+  const { data = [] } = useGetCategoriesQuery();
+  const category = data.find((el) => el._id === note.categoryId);
 
   return (
     <div
@@ -19,22 +19,24 @@ export function Note({ note, onClick }: INoteProps) {
       }}
     >
       <div className="flex items-center mb-2">
-        {/* category icon */}
-        <div className="mr-2">{category && <category.imageUrl />}</div>
-        {/* title */}
+        <div className="mr-2">
+          <img
+            className="w-7 h-7"
+            src={category?.photoURL}
+            alt="category-icon"
+          />
+        </div>
         <div className="text-lg font-bold tracking-wide">
           {note.name.length > 15 ? note.name.slice(0, 15) + "..." : note.name}
         </div>
       </div>
-      {/* content */}
       <div className="mb-2 text-base break-words">
         {note.content.length > 110
           ? note.content.slice(0, 110) + "..."
           : note.content}
       </div>
-      {/* date */}
       <div className="absolute bottom-2 right-2 text-xs text-right">
-        {new Date(note.created).toLocaleString("en-US", {
+        {new Date(note.createdAt).toLocaleString("en-US", {
           month: "long",
           year: "numeric",
           day: "numeric",

@@ -1,33 +1,31 @@
-import {
-  BiTask,
-  BiArchive,
-  BiPlusCircle,
-  BiLogOutCircle,
-} from "react-icons/bi";
+import { BiArchive, BiPlusCircle, BiLogOutCircle } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../helpers/hooks";
 import { INewNote } from "../helpers/interfaces";
 import { NotesActions } from "../redux/notesSlice";
 import { Modal } from "./Modal";
 import { NoteForm } from "./NoteForm";
 import { useState } from "react";
+import { authOperations } from "../redux/auth/authOperations";
+import { useGetCategoriesQuery } from "../redux/categoriesApi";
+import { useCreateNoteMutation } from "../redux/notesApi";
+import { ThreeCircles } from "react-loader-spinner";
+import {
+  currentNotesCategory,
+  isLoadingLogout,
+  showArchive,
+} from "../redux/reduxSelectors";
 
 export function SideBar() {
+  const [addNote] = useCreateNoteMutation();
+  const { data = [], refetch } = useGetCategoriesQuery();
   const [showCreateNoteModal, setShowCreateNoteModal] = useState(false);
-  const { showArchive, notes, categories, currentCategory } = useAppSelector(
-    (state) => state.notes
-  );
+  const isShowArchive = useAppSelector(showArchive);
+  const currentCategory = useAppSelector(currentNotesCategory);
+  const loadingLogout = useAppSelector(isLoadingLogout);
   const dispatch = useAppDispatch();
 
   const createNote = (note: INewNote) => {
-    const sameNote = notes.find(
-      (el) => el.name.toLowerCase() === note.name.toLowerCase()
-    );
-
-    if (sameNote) {
-      return alert("Note with the same name already exists");
-    }
-
-    dispatch(NotesActions.addNote(note));
+    addNote(note);
     setShowCreateNoteModal(false);
   };
 
@@ -36,6 +34,10 @@ export function SideBar() {
       return dispatch(NotesActions.pickCurrentCategory({ categoryId: null }));
     }
     dispatch(NotesActions.pickCurrentCategory({ categoryId: id }));
+  };
+
+  const logout = async () => {
+    await dispatch(authOperations.logout());
   };
 
   return (
@@ -55,7 +57,7 @@ export function SideBar() {
           {/* show archive */}
           <div
             className={`w-10 h-10 flex items-center justify-center rounded-full mr-2 transition-colors hover:bg-sky-500 cursor-pointer ${
-              showArchive ? "bg-sky-500" : "bg-sky-300"
+              isShowArchive ? "bg-sky-500" : "bg-sky-300"
             } `}
             onClick={() => {
               dispatch(NotesActions.toggleShowArchive());
@@ -65,25 +67,50 @@ export function SideBar() {
           </div>
 
           {/* logout */}
-          <div className="w-10 h-10 flex items-center justify-center rounded-full mr-2 bg-sky-300 transition-colors hover:bg-sky-500 cursor-pointer">
-            <BiLogOutCircle className="w-6 h-6 fill-slate-900" />
+          <div
+            className="w-10 h-10 flex items-center justify-center rounded-full mr-2 bg-sky-300 transition-colors hover:bg-sky-500 cursor-pointer"
+            onClick={logout}
+          >
+            {loadingLogout ? (
+              <ThreeCircles
+                height="20"
+                width="20"
+                color="black"
+                ariaLabel="three-circles-rotating"
+              />
+            ) : (
+              <BiLogOutCircle className="w-6 h-6 fill-slate-900" />
+            )}
           </div>
         </div>
 
         {/* categories */}
-        {categories.map((el) => (
+        {[...data].map((el) => (
           <div
+            key={el._id}
             className={`flex items-center w-full rounded-xl mb-2 px-2 py-1 transition-colors text-xl text-slate-900 cursor-pointer hover:bg-sky-500 focus:bg-sky-500 ${
-              currentCategory === el.id ? "bg-sky-500" : "bg-sky-300"
+              currentCategory === el._id ? "bg-sky-500" : "bg-sky-300"
             }`}
             onClick={() => {
-              handlePickCategory(el.id);
+              handlePickCategory(el._id);
             }}
           >
-            <BiTask className="w-6 h-6 mr-2 fill-slate-900" />
+            <img
+              className="w-6 h-6 mr-2 fill-slate-900"
+              src={el.photoURL}
+              alt="category-icon"
+            />
             <div className="text-lg">{el.name}</div>
           </div>
         ))}
+        <p
+          className="w-full rounded-xl mt-5 px-2 py-1 text-base text-center transition-colors text-slate-900 cursor-pointer bg-sky-300 hover:bg-sky-500 focus:bg-sky-500"
+          onClick={() => {
+            dispatch(NotesActions.pickCurrentCategory({ categoryId: null }));
+          }}
+        >
+          Reset filter
+        </p>
       </div>
 
       {showCreateNoteModal ? (
