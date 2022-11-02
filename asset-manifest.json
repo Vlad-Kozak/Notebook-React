@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Notebook-React/static/css/main.698143cf.css",
-    "main.js": "/Notebook-React/static/js/main.8ef982de.js",
+    "main.js": "/Notebook-React/static/js/main.5b37b675.js",
     "index.html": "/Notebook-React/index.html",
     "main.698143cf.css.map": "/Notebook-React/static/css/main.698143cf.css.map",
-    "main.8ef982de.js.map": "/Notebook-React/static/js/main.8ef982de.js.map"
+    "main.5b37b675.js.map": "/Notebook-React/static/js/main.5b37b675.js.map"
   },
   "entrypoints": [
     "static/css/main.698143cf.css",
-    "static/js/main.8ef982de.js"
+    "static/js/main.5b37b675.js"
   ]
 }
