@@ -6,6 +6,7 @@ import { authOperations } from "../redux/auth/authOperations";
 import { emailValidate } from "../helpers/emailValidate";
 import { isLoadingLogin, isLoadingRegister } from "../redux/reduxSelectors";
 import { ThreeDots } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 export function AuthForm() {
   const [email, setEmail] = useState("");
@@ -44,7 +45,13 @@ export function AuthForm() {
       }}
     >
       <p className="w-72 mb-5">You can log in with your Google Account:</p>
-      <button className="flex items-center justify-center w-[47%] mb-8 py-3 rounded-3xl bg-sky-100 font-bold text-base hover:bg-sky-300 focus:bg-sky-300 transition-colors">
+      <button
+        className="flex items-center justify-center w-[47%] mb-8 py-3 rounded-3xl bg-sky-100 font-bold text-base hover:bg-sky-300 focus:bg-sky-300 transition-colors"
+        type="button"
+        onClick={() => {
+          toast("This functionality will be available in the near future");
+        }}
+      >
         <FcGoogle className="w-6 h-6 mr-2" />
         Google
       </button>
