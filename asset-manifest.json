@@ -1,16 +1,13 @@
 {
   "files": {
-    "main.css": "/Notebook-React/static/css/main.09907212.css",
-    "main.js": "/Notebook-React/static/js/main.55e60164.js",
-    "static/media/thought.svg": "/Notebook-React/static/media/thought.e4f7d37c9583fb97f02d9ad5924f8de5.svg",
-    "static/media/task.svg": "/Notebook-React/static/media/task.9deb2c254804689a2e149f3bf96510d6.svg",
-    "static/media/idea.svg": "/Notebook-React/static/media/idea.16bdb1074dfe3d3a7bc1d1e2b3bba934.svg",
+    "main.css": "/Notebook-React/static/css/main.698143cf.css",
+    "main.js": "/Notebook-React/static/js/main.8ef982de.js",
     "index.html": "/Notebook-React/index.html",
-    "main.09907212.css.map": "/Notebook-React/static/css/main.09907212.css.map",
-    "main.55e60164.js.map": "/Notebook-React/static/js/main.55e60164.js.map"
+    "main.698143cf.css.map": "/Notebook-React/static/css/main.698143cf.css.map",
+    "main.8ef982de.js.map": "/Notebook-React/static/js/main.8ef982de.js.map"
   },
   "entrypoints": [
-    "static/css/main.09907212.css",
-    "static/js/main.55e60164.js"
+    "static/css/main.698143cf.css",
+    "static/js/main.8ef982de.js"
   ]
 }
