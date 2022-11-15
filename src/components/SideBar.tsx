@@ -17,7 +17,7 @@ import {
 
 export function SideBar() {
   const [addNote] = useCreateNoteMutation();
-  const { data = [], refetch } = useGetCategoriesQuery();
+  const { data = [] } = useGetCategoriesQuery();
   const [showCreateNoteModal, setShowCreateNoteModal] = useState(false);
   const isShowArchive = useAppSelector(showArchive);
   const currentCategory = useAppSelector(currentNotesCategory);
