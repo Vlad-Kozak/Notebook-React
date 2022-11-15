@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter basename="Notebook-React">
+      <BrowserRouter>
         <Provider store={store}>
           <App />
         </Provider>
