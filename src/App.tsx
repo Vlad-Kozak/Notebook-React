@@ -12,13 +12,16 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.root.auth.token);
   const isLoadingRefresh = useAppSelector(
     (state) => state.root.auth.isLoadingRefresh
   );
 
   useEffect(() => {
-    dispatch(authOperations.fetchCurrentUser());
-  }, [dispatch]);
+    if (token) {
+      dispatch(authOperations.fetchCurrentUser());
+    }
+  }, [dispatch, token]);
 
   if (isLoadingRefresh) {
     return (

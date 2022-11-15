@@ -1,11 +1,18 @@
-import { FormEvent, useState, ChangeEvent } from "react";
 import { ISmallNote } from "../helpers/interfaces";
 import { useGetCategoriesQuery } from "../redux/categoriesApi";
+import { Formik, Field, Form } from "formik";
+import * as yup from "yup";
 
 interface INoteFormProps {
   handleSubmit: Function;
   currentNote?: ISmallNote;
   children: JSX.Element;
+}
+
+interface IFormValues {
+  name: string;
+  categoryId: string;
+  content: string;
 }
 
 export function NoteForm({
@@ -14,115 +21,96 @@ export function NoteForm({
   children,
 }: INoteFormProps) {
   const { data = [] } = useGetCategoriesQuery();
-  const [name, setName] = useState(currentNote?.name ? currentNote.name : "");
-  const [categoryId, setCategoryId] = useState(
-    currentNote?.categoryId ? currentNote.categoryId : ""
-  );
-  const [content, setContent] = useState(
-    currentNote?.content ? currentNote.content : ""
-  );
-  const [isEmptyField, setIsEmptyField] = useState(false);
-  const [isMoreThanMaxLength, setIsMoreThanMaxLength] = useState(false);
 
-  const handleSubmitForm = (e: FormEvent) => {
-    e.preventDefault();
+  const validationSchema = yup.object().shape({
+    name: yup.string().max(50, "Max 50 characters").required("Required field"),
+    categoryId: yup.string().required("Required field"),
+    content: yup
+      .string()
+      .max(1000, "Max 1000 characters")
+      .required("Required field"),
+  });
 
-    if (!name.trim() || !categoryId || !content.trim()) {
-      return setIsEmptyField(true);
-    }
-
-    if (name.trim().length > 50 || content.trim().length > 1000) {
-      return setIsMoreThanMaxLength(true);
-    }
-
-    handleSubmit({
-      id: currentNote?.id,
-      name: name.trim(),
-      categoryId,
-      content: content.trim(),
-    });
-    setIsEmptyField(false);
+  const initialValues: IFormValues = {
+    name: currentNote ? currentNote.name : "",
+    categoryId: currentNote ? currentNote.categoryId : "",
+    content: currentNote ? currentNote.content : "",
   };
 
-  const onChange = (
-    e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    switch (e.currentTarget.name) {
-      case "name":
-        setName(e.currentTarget.value);
-        break;
-
-      case "category":
-        setCategoryId(e.currentTarget.value);
-        break;
-
-      case "content":
-        setContent(e.currentTarget.value);
-        break;
-
-      default:
-        return;
-    }
+  const handleSubmitForm = (values: IFormValues) => {
+    const { name, categoryId, content } = values;
+    handleSubmit({
+      id: currentNote?.id,
+      name,
+      categoryId,
+      content,
+    });
   };
 
   return (
-    <form className="w-[400px] text-2xl" onSubmit={handleSubmitForm}>
-      <label className="flex flex-col mb-5">
-        <span className="mb-5 text-white">Name</span>
-        <input
-          className="p-2 rounded-lg"
-          type="text"
-          name="name"
-          value={name}
-          onChange={onChange}
-          autoComplete="off"
-        />
-      </label>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmitForm}
+    >
+      {({ values, touched, errors, dirty, isValid, handleChange }) => (
+        <Form className="w-[400px] text-2xl">
+          <label className="flex flex-col mb-5">
+            <span className="mb-5 text-white">
+              Name
+              {errors.name && (
+                <span className="text-sm ml-2">{`(${errors.name})`}</span>
+              )}
+            </span>
+            <Field
+              className="p-2 rounded-lg outline-sky-700"
+              name="name"
+              autoComplete="off"
+            />
+          </label>
 
-      <div className="flex flex-col mb-5 text-white">
-        <span className="mb-5 text-white">Category</span>
-        {[...data].map((el) => {
-          return (
-            <label className="flex" key={el._id}>
-              <input
-                className="mr-2 accent-sky-300"
-                name="category"
-                type="radio"
-                value={el._id}
-                onChange={onChange}
-                checked={el._id === categoryId}
-              />
-              {el.name}
-            </label>
-          );
-        })}
-      </div>
+          <div className="flex flex-col mb-5 text-white">
+            <span className="mb-5 text-white">Category</span>
+            {[...data].map((el) => {
+              return (
+                <label className="flex" key={el._id}>
+                  <Field
+                    className="mr-2"
+                    name="categoryId"
+                    type="radio"
+                    value={el._id}
+                    checked={el._id === values.categoryId}
+                  />
+                  {el.name}
+                </label>
+              );
+            })}
+          </div>
 
-      <label className="flex flex-col mb-5">
-        <span className="mb-5 text-white">Content</span>
-        <textarea
-          className="h-40 p-2 rounded-lg resize-none"
-          name="content"
-          onChange={onChange}
-          value={content}
-        ></textarea>
-      </label>
+          <label className="flex flex-col mb-5">
+            <span className="mb-5 text-white">
+              Content
+              {errors.content && (
+                <span className="text-sm ml-2">{`(${errors.content})`}</span>
+              )}
+            </span>
+            <textarea
+              className="h-40 p-2 rounded-lg resize-none outline-sky-700"
+              name="content"
+              onChange={handleChange}
+              value={values.content}
+            ></textarea>
+          </label>
 
-      {isEmptyField && (
-        <div className="text-center text-white text-xl">
-          Fill all fields, please
-        </div>
+          <button
+            className="block ml-auto"
+            type="submit"
+            disabled={!dirty || !isValid}
+          >
+            {children}
+          </button>
+        </Form>
       )}
-      {isMoreThanMaxLength && (
-        <div className="text-center text-white text-lg">
-          The maximum number of letters for the name is 50. The maximum number
-          of letters for the content is 1000.
-        </div>
-      )}
-
-      <button className="block ml-auto cursor-pointer" type="submit">
-        {children}
-      </button>
-    </form>
+    </Formik>
   );
 }
