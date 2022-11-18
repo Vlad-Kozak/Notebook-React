@@ -83,6 +83,26 @@ const auth = createSlice({
           toast.error("Error");
       }
     });
+    builder.addCase(authOperations.googleAuth.pending, (state, action) => {
+      state.isLoadingLogin = true;
+    });
+    builder.addCase(authOperations.googleAuth.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isLoggedIn = true;
+      state.isLoadingLogin = false;
+    });
+    builder.addCase(authOperations.googleAuth.rejected, (state, action) => {
+      state.isLoadingLogin = false;
+      switch (action.payload) {
+        case 500:
+          toast.error("Server error, please try again later");
+          break;
+
+        default:
+          toast.error("Error");
+      }
+    });
     builder.addCase(authOperations.logout.pending, (state) => {
       state.isLoadingLogout = true;
     });

@@ -4,6 +4,10 @@ import { RootState } from "../store";
 
 axios.defaults.baseURL = "https://notebook-api-zaklaxd.herokuapp.com/api";
 
+interface IGoogleCredentials {
+  code: string;
+}
+
 interface IUserCredentials {
   email: string;
   password: string;
@@ -57,6 +61,20 @@ const login = createAsyncThunk<
   }
 });
 
+const googleAuth = createAsyncThunk<
+  IUserResponse,
+  IGoogleCredentials,
+  { rejectValue: any }
+>("auth/google", async (credentials, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post("/auth/google", credentials);
+    token.set(data.token);
+    return data;
+  } catch (error: any) {
+    return rejectWithValue(error.response.status);
+  }
+});
+
 const logout = createAsyncThunk(
   "/auth/logout",
   async (_, { rejectWithValue }) => {
@@ -94,6 +112,7 @@ const fetchCurrentUser = createAsyncThunk(
 export const authOperations = {
   register,
   login,
+  googleAuth,
   logout,
   fetchCurrentUser,
 };

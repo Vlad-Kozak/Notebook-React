@@ -5,6 +5,7 @@ import { persistor } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App";
 import "./index.css";
 
@@ -16,9 +17,11 @@ root.render(
   <React.StrictMode>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <Provider store={store}>
-          <App />
-        </Provider>
+        <GoogleOAuthProvider clientId="140932991070-c5qt3l0ev9onjv5717s26coc4fddbdb2.apps.googleusercontent.com">
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </GoogleOAuthProvider>
       </BrowserRouter>
     </PersistGate>
   </React.StrictMode>
